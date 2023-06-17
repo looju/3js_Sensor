@@ -1,20 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Canvas } from "@react-three/fiber";
+import { PointLightShadow } from "three";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Canvas>
+      <ambientLight intensity={1} />
+      <pointLight position={[10, 10, 10]} castShadow />
+      <mesh>
+        <sphereGeometry />
+        <meshToonMaterial color={"orange"} />
+      </mesh>
+      <mesh position={[-1, -3, -1]}>
+        <torusGeometry  />
+        <meshPhysicalMaterial color={"purple"} />
+      </mesh>
+    </Canvas>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
