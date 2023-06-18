@@ -7,7 +7,9 @@ export default function App() {
     const [active, setActive] = useState(false);
     const ref = useRef();
     useFrame((state, delta, xrFrame) => {
-      ref.current.rotation.y += delta;
+      if (active) {
+        ref.current.rotation.x -= delta *2;
+      }
     });
     return (
       <mesh
@@ -17,7 +19,7 @@ export default function App() {
         onClick={() => setActive(!active)}
       >
         <boxGeometry />
-        <meshToonMaterial color={active ? "pink" : "orange"} />
+        <meshToonMaterial color={active ? "blue" : "orange"} />
       </mesh>
     );
   }
