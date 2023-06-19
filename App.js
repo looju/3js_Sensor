@@ -4,29 +4,17 @@ import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
 import { useTexture } from "@react-three/drei";
 import { useState, useRef, Suspense, useLayoutEffect } from "react";
 import { Object3D } from "three";
+import {
+  useAnimatedSensor,
+  SensorType,
+  SensorConfig,
+} from "react-native-reanimated";
 import { THREE } from "expo-three";
 
 export default function App() {
-  function Box(props) {
-    const [active, setActive] = useState(false);
-    const ref = useRef();
-    useFrame((state, delta, xrFrame) => {
-      if (active) {
-        ref.current.rotation.x -= delta * 2;
-      }
-    });
-    return (
-      <mesh
-        {...props}
-        scale={active ? 1.5 : 1.0}
-        ref={ref}
-        onClick={() => setActive(!active)}
-      >
-        <boxGeometry />
-        <meshToonMaterial color={active ? "blue" : "orange"} />
-      </mesh>
-    );
-  }
+  const animatedSensor = useAnimatedSensor(SensorType.ROTATION, {
+    interval: 100,
+  });
 
   function Shoe(props) {
     const ref = useRef();
@@ -58,6 +46,7 @@ export default function App() {
       });
     }, [obj]);
     useFrame((state, delta) => {
+ 
       ref.current.rotation.x = delta;
       ref.current.rotation.y -= delta;
     });
@@ -72,7 +61,7 @@ export default function App() {
     <Canvas>
       <ambientLight intensity={1} />
       <Suspense fallback={null}>
-        <Shoe />
+        <Shoe animatedSensor={animatedSensor} />
       </Suspense>
     </Canvas>
   );
