@@ -4,6 +4,7 @@ import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
 import { useTexture } from "@react-three/drei";
 import { useState, useRef, Suspense, useLayoutEffect } from "react";
 import { Object3D } from "three";
+import { THREE } from "expo-three";
 
 export default function App() {
   function Box(props) {
@@ -46,6 +47,15 @@ export default function App() {
         loader.setMaterials(material);
       }
     );
+    useLayoutEffect(() => {
+      obj.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.material.map = colorMap;
+          child.material.normalMap=normalMap;
+          child.material.roughnessMap=roughnessMap;
+        }
+      });
+    }, [obj]);
     return (
       <mesh rotation={[1, 1, 0]}>
         <primitive object={obj} scale={15} />
@@ -53,7 +63,6 @@ export default function App() {
     );
   }
 
-  useLayoutEffect(() => {}, [obj]);
   return (
     <Canvas>
       <ambientLight intensity={1} />
