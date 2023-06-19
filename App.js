@@ -1,5 +1,6 @@
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
 import { useState, useRef, Suspense } from "react";
 
 export default function App() {
@@ -25,13 +26,17 @@ export default function App() {
   }
 
   function Shoe(props) {
+    const material = useLoader(
+      MTLLoader,
+      require("./assets/bundle/Airmax/shoe.mtl")
+    );
     const obj = useLoader(
       OBJLoader,
-      require("./assets/Asset Bundle/Airmax/shoe.obj")
+      require("./assets/bundle/Airmax/shoe.obj")
     );
     return (
-      <mesh>
-        <primitive object={obj} />
+      <mesh rotation={[1, 0, 0]}>
+        <primitive object={obj} scale={15} />
       </mesh>
     );
   }
@@ -39,7 +44,7 @@ export default function App() {
   return (
     <Canvas>
       <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} castShadow />
+      <pointLight position={[10, 10, 10]} />
       <Suspense fallback={null}>
         <Shoe />
       </Suspense>
