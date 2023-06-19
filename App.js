@@ -29,6 +29,7 @@ export default function App() {
   }
 
   function Shoe(props) {
+    const ref = useRef();
     const [colorMap, normalMap, roughnessMap] = useTexture([
       require("./assets/bundle/Airmax/textures/BaseColor.jpg"),
       require("./assets/bundle/Airmax/textures/Normal.jpg"),
@@ -51,13 +52,17 @@ export default function App() {
       obj.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material.map = colorMap;
-          child.material.normalMap=normalMap;
-          child.material.roughnessMap=roughnessMap;
+          child.material.normalMap = normalMap;
+          child.material.roughnessMap = roughnessMap;
         }
       });
     }, [obj]);
+    useFrame((state, delta) => {
+      ref.current.rotation.x = delta;
+      ref.current.rotation.y -= delta;
+    });
     return (
-      <mesh rotation={[1, 1, 0]}>
+      <mesh rotation={[0.7, 2, -1]} ref={ref}>
         <primitive object={obj} scale={15} />
       </mesh>
     );
