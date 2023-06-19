@@ -32,10 +32,14 @@ export default function App() {
     );
     const obj = useLoader(
       OBJLoader,
-      require("./assets/bundle/Airmax/shoe.obj")
+      require("./assets/bundle/Airmax/shoe.obj"),
+      (loader) => {
+        material.preload();
+        loader.setMaterials(material);
+      }
     );
     return (
-      <mesh rotation={[1, 0, 0]}>
+      <mesh rotation={[1, 1, 0]}>
         <primitive object={obj} scale={15} />
       </mesh>
     );
@@ -44,11 +48,9 @@ export default function App() {
   return (
     <Canvas>
       <ambientLight intensity={1} />
-      <pointLight position={[10, 10, 10]} />
       <Suspense fallback={null}>
         <Shoe />
       </Suspense>
-      <Shoe />
     </Canvas>
   );
 }
