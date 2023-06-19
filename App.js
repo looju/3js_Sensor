@@ -1,8 +1,9 @@
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
-import { TextureLoader } from "three/src/loaders/TextureLoader";
-import { useState, useRef, Suspense } from "react";
+import { useTexture } from "@react-three/drei";
+import { useState, useRef, Suspense, useLayoutEffect } from "react";
+import { Object3D } from "three";
 
 export default function App() {
   function Box(props) {
@@ -27,7 +28,7 @@ export default function App() {
   }
 
   function Shoe(props) {
-    const [colorMap, normalMap, roughnessMap] = useLoader(TextureLoader, [
+    const [colorMap, normalMap, roughnessMap] = useTexture([
       require("./assets/bundle/Airmax/textures/BaseColor.jpg"),
       require("./assets/bundle/Airmax/textures/Normal.jpg"),
       require("./assets/bundle/Airmax/textures/Roughness.png"),
@@ -46,12 +47,13 @@ export default function App() {
       }
     );
     return (
-      <mesh rotation={[1, 1, 0]} >
+      <mesh rotation={[1, 1, 0]}>
         <primitive object={obj} scale={15} />
       </mesh>
     );
   }
 
+  useLayoutEffect(() => {}, [obj]);
   return (
     <Canvas>
       <ambientLight intensity={1} />

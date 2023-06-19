@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-three/drei": "^9.77.0",
     "@react-three/fiber": "^8.13.3",
     "expo": "~48.0.18",
     "expo-file-system": "~15.2.2",
